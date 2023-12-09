@@ -9,7 +9,7 @@ let highscore = 1;
 
 let h2 = document.querySelector("h2");  
 let h3 = document.querySelector("h3");
-document.addEventListener("keypress", function () {
+document.addEventListener("click", function () {
   //key press k liye eventListner lagaye
   if (started == false) {
     console.log("Game Started ");
