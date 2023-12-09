@@ -1,88 +1,85 @@
-let gameSeq = [];
-let userSeq = [];
+let gameSeq = []; //game ka kya sequence hai 
+let userSeq = [];// user ka kya sequence hai
 
-let btns = ["red", "green", "blue", "alpha"]; // 4 button names
+let btns = ["red", "green", "blue", "alpha"]; // 4 button names id or class same hai 
 
-let started = false;
-let level = 0;
-let highscore = 1;
+let started = false; //game started ko pahele false rake 
+let level = 0; // current level is 0
+let highscore = 1;// highscore is is 1
 
-let h2 = document.querySelector("h2");  
-let h3 = document.querySelector("h3");
-document.addEventListener("keypress", function () {
-  //key press k liye eventListner lagaye
-  if (started == false) {
+let h2 = document.querySelector("h2");  // selected h2
+let h3 = document.querySelector("h3");  // selected h3
+document.addEventListener("keypress", function () { //html k document ma event listner lagaya 
+  if (started == false) { 
     console.log("Game Started ");
     started = true;
     levelUp();
   }
 });
 
-// btn flash=
-function btnFlash(btn) {
+function gameBtnFlash(btn) { //game ka btn flash jo hota hai ye krta function karta hai 
   btn.classList.add("flash");
   setTimeout(function () {
     btn.classList.remove("flash");
   }, 200);
 }
 
-// user btn flash
-function userFlash(btn) {
+function userFlash(btn) { //user jab click karta hai toh ye btn flash krta hai
   btn.classList.add("userFlash");
   setTimeout(function () {
     btn.classList.remove("userFlash");
   }, 200);
 }
 
-function levelUp() {
-  userSeq = [];
-  level++;
-  if(level >= highscore){
-    highscore = level;
+function levelUp() { // this function level up the things
+  userSeq = []; // level up hoga toh user seq khali null ho jayega
+  level++; // level 1 se 2 then 2 se 3 aise hi agge badte rahega
+  if(level >= highscore){ // agar level bada hai highscore se toh 
+    highscore = level; // highscore ma level ka value ajayega 
   }
-  h2.innerText = `Level ${level}`;
-  let randIdx = Math.floor(Math.random() * 4);
-  let randCol = btns[randIdx];
-  let randBtn = document.querySelector(`.${randCol}`);
-  gameSeq.push(randCol);
+  h2.innerText = `Level ${level}`; // printing level
+  let randIdx = Math.floor(Math.random() * 4); //random select karega 4btn se
+  let randCol = btns[randIdx]; // array se koi sa v col choose jarega  
+  let randBtn = document.querySelector(`.${randCol}`); //random color ko select kar k  randomm btn ma dal diye
+  gameSeq.push(randCol); //game seq ma push kardiye jo v random color aya tha usko
   console.log(gameSeq);
-  btnFlash(randBtn);
+  gameBtnFlash(randBtn); //game wo random color ko flash kardega 
 }
 
-function checkAns(idx) {
-  if (userSeq[idx] === gameSeq[idx]) {
-    if (userSeq.length == gameSeq.length) {
-      setTimeout(levelUp, 300);
+function checkAns(idx) {  // sequences check karega
+  if (userSeq[idx] === gameSeq[idx]) { // agr user or game ka seq same hai 
+    if (userSeq.length == gameSeq.length) { // agar user or game ka length same hai 
+      setTimeout(levelUp, 300); // toh level up 0.3sec ma
     }
-  } else {
-    h2.innerHTML = `Game Over! Your Score Was <b> ${level}</b>  <br> Press any key to start`;
-    h3.innerHTML =`Highest Score =  ${highscore}`;
-    document.querySelector("body").style.backgroundColor = "red";
-    setTimeout(function () {
-      document.querySelector("body").style.backgroundColor = "white";
-    }, 200);
-    reset();
+  } else { // nahi toh 
+    h2.innerHTML = `Game Over! Your Score Was <b> ${level}</b>  <br> Press any key to start`; // game khtm or level print kardo 
+    h3.innerHTML =`Highest Score =  ${highscore}`; // highest score print kardo
+    document.querySelector("body").style.backgroundColor = "red"; //galat hua toh body color red kardenge 
+    setTimeout(function () { // time out 
+      document.querySelector("body").style.backgroundColor = "white";// kuch samye bad body color ko normal white color kardenge 
+    }, 200); 
+    reset(); // or game ko reset kardenge
   }
 }
 
 // function that will print button is pressed
-function btnPress() {
-  let btn = this;
-  userFlash(btn);
+function btnPress() {  // hum btn press karenge uska hisab batayega ye function
+  let btn = this;// this mane jonsa btn click kiye wo
+  userFlash(btn);// hum jonsa btn click kiye wo btn ko flash kardiye (#userflash)
 
-  userColor = btn.getAttribute("id");
-  userSeq.push(userColor);
+  userColor = btn.getAttribute("id"); //selected all btns using get attribure method
+  userSeq.push(userColor); // user ka jo sequence array hai usme hum add karide jo v btn hum click kiye the
 
   checkAns(userSeq.length - 1);
 }
 
-let allBtns = document.querySelectorAll(".btn"); 
-for (btn of allBtns) {
-  btn.addEventListener("click", btnPress); // btnPressed ek function hai usko yaha pe parameter ki tarah istemal kiye  so its a callback function
+let allBtns = document.querySelectorAll(".btn");  // sare btn class ko select kardiye 
+for (btn of allBtns) { //for of loop for array
+  btn.addEventListener("click", btnPress);//(callback) click hoga toh ye btnpress function run karega 
 }
 
-function reset() {
-  started = false;
+function reset() { // reset function//all nill sab
+  started = false; 
   gameSeq = [];
   userSeq = [];
   level = 0;
