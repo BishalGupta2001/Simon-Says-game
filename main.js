@@ -5,7 +5,7 @@ let btns = ["red", "green", "blue", "alpha"]; // 4 button names id or class same
 
 let started = false; //game started ko pahele false rake 
 let level = 0; // current level is 0
-let highscore = 1;// highscore is is 1
+let highscore = 0;// highscore is is 1
 
 let h2 = document.querySelector("h2");  // selected h2
 let h3 = document.querySelector("h3");  // selected h3
@@ -84,3 +84,16 @@ function reset() { // reset function//all nill sab
   userSeq = [];
   level = 0;
 }
+
+
+// how to play instruction
+let button = document.querySelector("#instruction"); // selected how to play button
+let infoContainer = document.querySelector("#info-container"); //selected info container
+
+button.addEventListener("click" , function (){
+  if(infoContainer.style.display === "none") {
+    infoContainer.style.display = "block";
+  }else{
+    infoContainer.style.display = "none"; 
+  }
+});
